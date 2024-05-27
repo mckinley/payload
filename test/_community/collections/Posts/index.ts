@@ -7,18 +7,22 @@ export const postsSlug = 'posts'
 export const PostsCollection: CollectionConfig = {
   fields: [
     {
-      name: 'text',
+      name: 'hiddenField',
       type: 'text',
-    },
-    {
-      name: 'associatedMedia',
-      access: {
-        create: () => true,
-        update: () => false,
-      },
-      relationTo: mediaSlug,
-      type: 'upload',
+      hidden: true,
     },
   ],
+  access: {
+    read: () => {
+      return {
+        hiddenField: {
+          equals: 'value',
+        },
+      }
+    },
+  },
+  versions: {
+    drafts: true,
+  },
   slug: postsSlug,
 }

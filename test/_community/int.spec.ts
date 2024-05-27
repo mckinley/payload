@@ -69,4 +69,16 @@ describe('_Community Tests', () => {
 
     expect(newPost.doc.text).toEqual('REST API EXAMPLE')
   })
+
+  it('allows Collections to be Access filtered when Draft Versions are enabled', async () => {
+    // The actual url used by the admin panel index page is something like: 'http://localhost:3000/api/posts?depth=0&draft=true&limit=10&invoke=a3293979-b657-429c-a55a-860ad750d0c1'
+    const resources = await fetch(`${apiUrl}/${postsSlug}?draft=true`, {
+      headers: {
+        ...headers,
+        Authorization: `JWT ${jwt}`,
+      },
+    }).then((res) => res.json())
+
+    expect(resources).toHaveProperty('docs')
+  })
 })
